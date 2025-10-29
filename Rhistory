@@ -1,0 +1,512 @@
+fill.scale = tm_scale(values = "RdYlGn"),
+fill.legend = tm_legend(title = "Nivel de bacterias")
+) +
+tm_title("Lugares más seguros para nadar en California")
+# Unir con el shapefile de California
+names(sitios_seguro)
+sitios_seguro_sf <- st_as_sf(sitios_seguro,
+coords = c("Longitude", "Latitude"),
+crs = 4326)
+sitios_seguro <- bacterias %>%
+group_by(StationName) %>%
+summarise(promedio = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+arrange(promedio)
+head(sitios_seguro, 10)  # Los 10 lugares más seguros
+# Asegúrate de tener columnas de coordenadas
+bacterias_sf <- st_as_sf(bacterias, coords = c("TargetLongitude", "TargetLatitude"),
+crs = 4326)
+# Unir con el shapefile de California
+names(sitios_seguro)
+bacterias_sf
+names(bacterias_sf)
+# Unir con el shapefile de California
+names(sitios_seguro)
+# Calcular promedio y coordenadas por sitio
+sitios_seguro <- bacterias %>%
+group_by(StationName) %>%
+summarise(
+promedio = mean(Geometric_Mean, na.rm = TRUE),
+Latitude = mean(Latitude, na.rm = TRUE),
+Longitude = mean(Longitude, na.rm = TRUE)
+) %>%
+arrange(promedio)
+# Calcular promedio y coordenadas por sitio
+sitios_seguro <- bacterias %>%
+group_by(StationName) %>%
+summarise(
+promedio = mean(X30DayGeoMean, na.rm = TRUE),
+Latitude = mean(TargetLatitude, na.rm = TRUE),
+Longitude = mean(TargetLongitude, na.rm = TRUE)
+) %>%
+arrange(promedio)
+# Unir con el shapefile de California
+names(sitios_seguro)
+sitios_seguro_sf <- st_as_sf(sitios_seguro,
+coords = c("Longitude", "Latitude"),
+crs = 4326)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro) +
+tm_dots(
+fill = "promedio",
+size = 0.3,
+fill.scale = tm_scale(values = "RdYlGn"),
+fill.legend = tm_legend(title = "Nivel de bacterias")
+) +
+tm_title("Lugares más seguros para nadar en California")
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+fill = "promedio",
+size = 0.3,
+fill.scale = tm_scale(values = "RdYlGn"),
+fill.legend = tm_legend(title = "Nivel de bacterias")
+) +
+tm_title("Lugares más seguros para nadar en California")
+sitios_seguro_sf <- st_as_sf(
+sitios_seguro,
+coords = c("Longitude", "Latitude"),
+crs = 4326
+)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+fill = "promedio",
+size = 0.3,
+fill.scale = tm_scale(values = "RdYlGn"),
+fill.legend = tm_legend(title = "Nivel de bacterias")
+) +
+tm_title("Lugares más seguros para nadar en California")
+st_crs(sitios_seguro_sf) <- 4326
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+fill = "promedio",
+size = 0.3,
+fill.scale = tm_scale(values = "RdYlGn"),
+fill.legend = tm_legend(title = "Nivel de bacterias")
+) +
+tm_title("Lugares más seguros para nadar en California")
+california <- st_read("CA_State.shp")
+st_crs(california) <- 4326
+plot(california)
+st_crs(california) <- 3310
+plot(california)
+california <- st_transform(california, 4326)
+st_crs(california)
+plot(california)
+california <- st_transform(california, 3310)
+st_crs(california)
+plot(california)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+fill = "promedio",
+size = 0.3,
+fill.scale = tm_scale(values = "RdYlGn"),
+fill.legend = tm_legend(title = "Nivel de bacterias")
+) +
+tm_title("Lugares más seguros para nadar en California")
+st_geometry(sitios_seguro_sf)
+st_bbox(sitios_seguro_sf)
+st_bbox(california)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_symbols(
+col = "promedio",
+size = 0.4,
+palette = "RdYlGn",
+title.col = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+head(sitios_seguro_sf)
+california <- st_transform(california, 4326)
+tmap_mode("plot")
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+head(sitios_seguro_sf)tmap_mode("view")
+tmap_mode("view")
+california <- st_transform(california, 4326)
+sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+# Cargar mapa de California
+california <- st_read("CA_State.shp")
+# Unir con el shapefile de California
+st_crs(california)
+california <- st_transform(california, 4326)
+head(st_coordinates(california))
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+st_crs(california)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+# Mapa con todos los elementos solicitados
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +  # rosa de los vientos
+tm_scale_bar(position = c("left", "bottom")) +                         # barra de escala
+tm_grid(
+lines = TRUE,                                                        # muestra líneas de coordenadas
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,                                                    # número de divisiones de la grilla
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,            # leyenda fuera del mapa
+frame = TRUE                      # borde del mapa
+)
+# Cambia a modo de mapa estático
+tmap_mode("plot")
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +  # rosa de los vientos
+tm_scale_bar(position = c("left", "bottom")) +                         # barra de escala
+tm_grid(
+lines = TRUE,                                                        # muestra líneas de coordenadas
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,                                                    # número de divisiones de la grilla
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,            # leyenda fuera del mapa
+frame = TRUE                      # borde del mapa
+)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+# Unir con el shapefile de California
+st_crs(california)
+california <- st_transform(california, 4326)
+head(st_coordinates(california))
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+st_crs(california)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+# Asegúrate de que ambos estén en WGS84
+st_crs(california) <- 3857  # según lo que viste antes
+california <- st_transform(california, 4326)
+sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+# Cambia a modo de mapa estático
+tmap_mode("plot")
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +  # rosa de los vientos
+tm_scale_bar(position = c("left", "bottom")) +                         # barra de escala
+tm_grid(
+lines = TRUE,                                                        # muestra líneas de coordenadas
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,                                                    # número de divisiones de la grilla
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,            # leyenda fuera del mapa
+frame = TRUE                      # borde del mapa
+)
+# Cargar mapa de California
+california <- st_read("CA_State.shp")
+# Unir con el shapefile de California
+st_crs(california)
+california <- st_transform(california, 4326)
+head(st_coordinates(california))
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+st_crs(california)
+tm_shape(california) +
+tm_borders() +
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_title("Lugares más seguros para nadar en California")
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +  # rosa de los vientos
+tm_scale_bar(position = c("left", "bottom")) +                         # barra de escala
+tm_grid(
+lines = TRUE,                                                        # muestra líneas de coordenadas
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,                                                    # número de divisiones de la grilla
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,            # leyenda fuera del mapa
+frame = TRUE                      # borde del mapa
+)
+library(tidyverse)
+library(sf)
+library(ggplot2)
+library(tmap)
+library(dplyr)
+# Cargar base de datos de bacterias
+bacterias <- read.csv("safetoswim_geomeans_2020-present.csv")
+# Cargar mapa de California
+california <- st_read("CA_State.shp")
+names(bacterias)
+glimpse(bacterias)
+summary(bacterias)
+bacterias_abundantes <- bacterias %>%
+group_by(Analyte) %>%
+summarise(promedio = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+arrange(desc(promedio))
+bacterias_abundantes
+# Cargar base de datos de bacterias
+bacterias <- read.csv("safetoswim_geomeans_2020-present.csv")
+# Cargar mapa de California
+california <- st_read("CA_State.shp")
+names(bacterias)
+glimpse(bacterias)
+summary(bacterias)
+bacterias_abundantes <- bacterias %>%
+group_by(Analyte) %>%
+summarise(promedio = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+arrange(desc(promedio))
+bacterias_abundantes
+ggplot(bacterias_abundantes, aes(x = reorder(Analyte, promedio), y = promedio, fill = Analyte)) +
+geom_col() +
+coord_flip() +
+labs(title = "Bacterias más abundantes en California (2020-presente)",
+x = "Bacteria", y = "Concentración promedio (GeoMean)") +
+theme_minimal()
+abundancia_por_year <- bacterias %>%
+group_by(SampleDate) %>%
+summarise(promedio_anual = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+arrange(desc(promedio_anual))
+abundancia_por_year
+ggplot(abundancia_por_year, aes(x = SampleDate , y = promedio_anual)) +
+geom_line() + geom_point() +
+labs(title = "Abundancia bacteriana promedio por año",
+x = "Año", y = "Concentración promedio (GeoMean)") +
+theme_minimal()
+sitios_seguro <- bacterias %>%
+group_by(StationName) %>%
+summarise(promedio = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+arrange(promedio)
+head(sitios_seguro, 10)  # Los 10 lugares más seguros
+# Calcular promedio y coordenadas por sitio
+sitios_seguro <- bacterias %>%
+group_by(StationName) %>%
+summarise(
+promedio = mean(X30DayGeoMean, na.rm = TRUE),
+Latitude = mean(TargetLatitude, na.rm = TRUE),
+Longitude = mean(TargetLongitude, na.rm = TRUE)
+) %>%
+arrange(promedio)
+bacterias_sf <- st_as_sf(bacterias, coords = c("TargetLongitude", "TargetLatitude"),
+crs = 4326)
+names(bacterias_sf)
+# Unir con el shapefile de California
+st_crs(california)
+head(st_coordinates(california))
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+st_crs(california)
+sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+sitios_seguro_sf <- st_as_sf(sitios_seguro,
+coords = c("Longitude", "Latitude"),
+crs = 4326)
+st_crs(california)
+head(st_coordinates(california))
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+st_crs(california)
+sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +
+tm_scale_bar(position = c("left", "bottom")) +
+tm_grid(
+lines = TRUE,
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,
+frame = TRUE
+)
+st_crs(california)
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+st_crs(california)
+sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +
+tm_scale_bar(position = c("left", "bottom")) +
+tm_grid(
+lines = TRUE,
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,
+frame = TRUE
+)
+california <- st_read("CA_State.shp")
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +
+tm_scale_bar(position = c("left", "bottom")) +
+tm_grid(
+lines = TRUE,
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,
+frame = TRUE
+)
+st_crs(california) <- 3857
+california <- st_transform(california, 4326)
+st_crs(california)
+sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+tm_shape(california) +
+tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+tm_shape(sitios_seguro_sf) +
+tm_dots(
+col = "promedio",
+size = 0.3,
+palette = "RdYlGn",
+title = "Nivel de bacterias"
+) +
+tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +
+tm_scale_bar(position = c("left", "bottom")) +
+tm_grid(
+lines = TRUE,
+labels.inside.frame = FALSE,
+n.x = 6, n.y = 6,
+col = "gray70"
+) +
+tm_layout(
+main.title = "Lugares más seguros para nadar en California",
+main.title.size = 1.2,
+legend.outside = TRUE,
+frame = TRUE
+)
