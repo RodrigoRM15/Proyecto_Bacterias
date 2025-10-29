@@ -1,0 +1,266 @@
+---
+title: "Proyecto informatica"
+author: "Ramos Morales Rodrigo, Miguel Angel Primero Rivera"
+date: "2025-10-29"
+output: html_document
+---
+# Introduccion 
+
+Primero que nada un poco de contexto, decidimos elegir el area de estudio en California para estudiar la proporcion de bacterias en agua esto debido a que California tiene uno de los mares o costas mas contaminadas del mundo, esto debido a la contaminacion de aguas residuales. 
+
+Al encontrar una base de datos que se actualiza constantemente sobre la proporcion de bacterias en las costas de California decidimos trabajar con esta misma para ver como ha cambiado la proporcion de bacterias en las costas de California de 2020 a la actualidad.
+
+Dentro de la base de datos toman en cuenta 4 tipos de bacterias diferentes 
+
+```{r}
+#+ E. coli
+#+ Enterococos 
+#+ Coliformes fecales  
+#+ Coliformes totales
+```
+
+Y nosotros usamos ciertas variables de la base de datos para determinar
+```{r}
+# ¿Que bacteria es la mas abundante?
+# ¿Es seguro nadar en California?
+```
+
+Entre las variables que elegimos fueron:
+
+```{r}
+#•	CollectionDepth (Profundidad de la colección)
+#•	SampleDate (Fecha de muestra) 
+#•	DW_AnalyteName (Nombre del analito)
+#•	PositionWaterColumn (Posicion de la columna de agua donde se tomo la muestra)
+#•	Result (Resultado del analito) 
+#•	Unit (Unidad del analito) 
+#•	Latitud 
+#•	Longitud
+#•	SampleID (No se si añadir el id de muestra) 
+
+```
+Las cuales consideramos fueron las mas importantes para el trabajo que ibamos a realizar 
+
+## Primero cargamos las librerias que vamos a utilizar
+
+```{r}
+library(dplyr)
+library(tidyverse)
+```
+
+## Ahora cargamos la base de datos que pasamos a csv para leerlo de mejor manera
+
+```{r}
+#data_bacterias <- read.csv("base de datos bacterias.csv")
+```
+
+## Ya con la base de datos vamos a hacer un data frame filtrando los datos que vamos a utilizar
+
+```{r}
+#tabla1 <- select(data_bacterias, CollectionDepth, SampleDate, DW_AnalyteName,LocationCode, Result, Unit)
+```
+
+Lo que hicimos anteriormente fue solo seleccionar las variables que necesitamos, ya que maso menos la base de datos cuenta con 40 variables diferentes
+
+## Inspeccionamos la nueva base de datos filtrada
+
+```{r}
+#summary(tabla1)
+```
+
+## Ahora vamos a omitir todos los NA´s
+
+```{r}
+#tabla_na <- na.omit(tabla1)
+#summary(tabla_na)
+#class(tabla_na$Result)
+```
+
+## Ahora vamos a filtrar algunas observaciones siguiendo el criterio del año
+
+```{r}
+#filter(tabla_na,
+       #DW_AnalyteName == "Coliform, Fecal")
+```
+
+# Ahora para hacer mapas y graficos
+
+## Cargar librerias
+
+```{r}
+#install.packages(c("tidyverse", "sf", "ggplot2", "tmap", "dplyr"))
+library(tidyverse)
+library(sf)
+library(ggplot2)
+library(tmap)
+library(dplyr)
+```
+
+## Cargar mapa de California
+
+```{r}
+#california <- st_read("CA_State.shp")
+```
+
+```{r}
+#names(bacterias)
+
+#glimpse(bacterias)
+#summary(bacterias)
+```
+
+## Buscamos bacterias mas abundantes
+
+```{r}
+#bacterias_abundantes <- bacterias %>%
+  #group_by(Analyte) %>% 
+  #summarise(promedio = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+  #arrange(desc(promedio))
+
+#bacterias_abundantes
+```
+
+## Hacemos gráfica
+
+```{r}
+#ggplot(bacterias_abundantes, aes(x = reorder(Analyte, promedio), y = promedio, fill = Analyte)) +
+  #geom_col() +
+  #coord_flip() +
+  #labs(title = "Bacterias más abundantes en California (2020-presente)",
+       #x = "Bacteria", y = "Concentración promedio (GeoMean)") +
+  #theme_minimal()
+```
+
+![](images/0b637b9d-1592-4c69-8d3c-61c607821955.jpg)
+
+## sacamos la abundancia de bacterias por año
+
+```{r}
+#abundancia_por_year <- bacterias %>%
+ # group_by(SampleDate) %>%
+  #summarise(promedio_anual = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+  #arrange(desc(promedio_anual))
+
+#abundancia_por_year
+```
+
+## Visualizamos Gráfica de puntos
+
+```{r}
+#ggplot(abundancia_por_year, aes(x = SampleDate , y = promedio_anual)) +
+  #geom_line() + geom_point() +
+  #labs(title = "Abundancia bacteriana promedio por año",
+       #x = "Año", y = "Concentración promedio (GeoMean)") +
+  #theme_minimal()
+
+```
+
+![](images/21406d6a-1367-4590-8881-3353ce2a822c.jpg)
+
+## Buscaremos los lugares mas seguros para nadar
+
+```{r}
+#sitios_seguro <- bacterias %>%
+  #group_by(StationName) %>%
+  #summarise(promedio = mean(X30DayGeoMean, na.rm = TRUE)) %>%
+  #arrange(promedio)
+
+#head(sitios_seguro, 10)  # Los 10 lugares más seguros
+```
+
+## Calcular promedio y coordenadas por sitio
+
+```{r}
+#sitios_seguro <- bacterias %>%
+  #group_by(StationName) %>%
+  #summarise(
+   # promedio = mean(X30DayGeoMean, na.rm = TRUE),
+    #Latitude = mean(TargetLatitude, na.rm = TRUE),
+    #Longitude = mean(TargetLongitude, na.rm = TRUE)
+  #) %>%
+  #arrange(promedio)
+
+#bacterias_sf <- st_as_sf(bacterias, coords = c("TargetLongitude", "TargetLatitude"),
+                        # crs = 4326)
+
+#names(bacterias_sf)
+```
+
+## Unir con el shapefile de California
+
+```{r}
+#sitios_seguro_sf <- st_as_sf(sitios_seguro, 
+                             #coords = c("Longitude", "Latitude"), 
+                             #crs = 4326) 
+
+#california <- st_read("CA_State.shp")
+#st_crs(california)
+
+#head(st_coordinates(california))
+
+#st_crs(california) <- 3857
+
+#california <- st_transform(california, 4326)
+
+#st_crs(california)
+
+#sitios_seguro_sf <- st_transform(sitios_seguro_sf, 4326)
+
+#tm_shape(california) +
+  #tm_borders(col = "gray40", lwd = 1) +              # bordes del estado
+  #tm_shape(sitios_seguro_sf) +
+  #tm_dots(
+    #col = "promedio",
+    #size = 0.3,
+    #palette = "RdYlGn",
+    #title = "Nivel de bacterias"
+  #) +
+  #tm_compass(type = "8star", size = 3, position = c("left", "bottom")) +  
+  #tm_scale_bar(position = c("left", "bottom")) +                         
+  #tm_grid(
+    #lines = TRUE,                                                        
+    #labels.inside.frame = FALSE,
+    #n.x = 6, n.y = 6,                                                   
+    #col = "gray70"
+  #) +
+  #tm_layout(
+    #main.title = "Lugares más seguros para nadar en California",
+    #main.title.size = 1.2,
+    #legend.outside = TRUE,            
+    #frame = TRUE                      
+  #)
+```
+
+![](images/7e811fc8-3c4f-4b14-a560-dbaf548ae6b92.jpg)
+
+# Conclusiones 
+
+Con los resultados obtenidos en las graficas y analisis de datos podemos observar que La bacteria mas abundante en los ultimos años es Enterococcus, la cual es una bacteria que comunmente causa infecciones en seres humanos y aunque forma parte de nuestra microbiota puede causar problemas de salud y enfermedades cuando hay grandes proporciones de estas. 
+
+Ahora biem, siguiendo los mapas de California podemos concluir que aunque hay una buena porporcion de lugares donde es seguro nadar tambien hay otra parte donde no lo es y esto va a cambiar segun las temporadas. Sin embargo en los ultimos años han aumentado bastante las zonas donde es seguro nadar y porende hay menos incidencia de bacterias en agua.
+
+Generalmernte lugares turisticos sonlugares bastante contaminados y mas en verano. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
